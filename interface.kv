@@ -1,0 +1,557 @@
+ScreenManagement:
+    Page1:
+        name: 'splashscreen'
+    Page2:
+        name: 'settings'
+    Page3:
+        name: 'game'
+    Page4:
+        name: 'favorites'
+    Page5:
+        name: 'par'
+    Page6:
+        name: 'image'
+
+<page1>:
+    Image:
+        source:
+            "img/src/splashscreen.png"
+        Button:
+            id: bsplash
+            size: 480, 320
+            opacity : 0
+            on_press:
+                root.manager.current = 'settings'
+#                app.setCurrentSystem()
+#                app.lis_gamePerSys()
+
+<page2>:
+    Image:
+        id:background
+        source:
+            "img/src/background_naomi.jpg" if jj.text == "NAOMI" else "img/src/background_triforce.jpg" if jj.text == "TRIFORCE" else "img/src/background_naomi2.jpg" if jj.text == "NAOMI2" else "img/src/background_atomiswave.jpg" if jj.text == "ATOMISWAVE" else "img/src/background_chihiro.jpg" if jj.text == "CHIHIRO" else "img/src/background_allgames.jpg"
+
+    Spinner:
+        id: jj
+        text:'Select an Arcade Machine'
+        font_size: '18sp'
+        values: 'NAOMI 1', 'NAOMI 2','NAOMI 3','NAOMI 4', 'NAOMI 5','NAOMI 6'
+        size_hint: 0.6,0.12
+        sync_height: 1
+        #size_hint:(None,None)
+        #size: root.width/4,root.height/12
+        pos: 95, 220
+        opacity : 0.75
+
+    Button:
+        disabled: True if jj.text == "Select an Arcade Machine" else False
+        size_hint:1, 0.2
+        font_size: '18sp'
+        text : "Set IP Address"
+        pos:0,0
+        opacity : 0.75
+        on_press:
+            root.manager.current ='par'
+            app.setCurrentSystem()
+            app.ip_init()
+
+    BoxLayout:
+        orientation:'horizontal'
+        pos:0,272
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            Image:
+                source: 'img/src/settings.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+        Button:
+            id: b2
+            disabled: True if jj.text == "Select an Arcade Machine" else False
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press:
+                root.manager.current = 'game'
+                app.setCurrentSystem()
+                app.lis_gamePerSys()
+            Image:
+                source: 'img/src/game.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+        Button:
+            disabled: True if jj.text == "Select an Arcade Machine" else False
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press: root.manager.current = 'favorites'
+            Image:
+                source: 'img/src/favorite.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press: app.appli_stop()
+
+            Image:
+                source: 'img/src/cancel.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+
+######################################################
+<page3>:
+    Image:
+        source: 'img/src/background_allgames.jpg'
+    BoxLayout:
+        orientation:'horizontal'
+        pos:0,272
+
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press: root.manager.current = 'settings'
+            Image:
+                source: 'img/src/settings.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            Image:
+                source: 'img/src/game.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press: root.manager.current = 'favorites'
+            Image:
+                source: 'img/src/favorite1.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+
+        Button:
+            size_hint:0.1, 0.15
+            opacity : 0.75
+            on_press: app.appli_stop()
+            Image:
+                source: 'img/src/cancel.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+
+    FloatLayout:
+        pos: 0,10
+
+        Button:
+            id: b3
+            size_hint_y: None
+            size_hint:0.08, 0.85
+            opacity : 0.75
+            pos:0,0
+            on_press:
+                app.img_inc(0)
+                app.checkfavorite()
+            Image:
+                source: 'img/src/left.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 25,30
+
+        Button:
+            id: b1
+            size_hint_y: None
+            size_hint:0.08, 0.85
+            opacity : 0.75
+            pos:441.6,0
+            on_press:
+                app.img_inc(1)
+                app.checkfavorite()
+            Image:
+                source: 'img/src/rigth.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 25,30
+
+        Label:
+            id: game_title
+            pos: -80, 150
+            text_size: cm(6), cm(5)
+            font_size: 16
+            color: 0,0,0,1
+            #halign: 'left'
+            #valign: 'middle'
+        Label:
+            id: game_label
+            pos: -80,10
+            text_size: cm(6), cm(5)
+            font_size: 16
+            color: 0,0,0,1
+            #halign: 'left'
+            #valign: 'middle'
+###### img################################################### karim babouri et sarah hadj-mokhnache
+        Button:
+            size_hint:0.32, 0.53
+            pos:275,90
+            on_press:
+                app.imgGo()
+                app.imgGame_inc()
+        Image:
+            id: image01
+            size_hint:0.32, 0.53
+            pos:275,90
+            allow_stretch:True
+            keep_ratio:False
+
+        Button:
+            id: upld
+            text:'Upload'
+            font_size: '20sp'
+            size_hint:0.84, 0.135
+            opacity : 0.75
+            pos:38.5,0
+            on_press:
+                app.upload()
+
+        FloatLayout:
+            pos: 318,58
+
+            canvas.before:
+                Color:
+                    rgb: 0,0,0
+                Rectangle:
+                    pos:320,55
+                    size:[20,20]
+                Color:
+                    rgb: 1,1,1
+                Rectangle:
+                    pos:322,57
+                    size:[16,16]
+            Image:
+                opacity: 0 if chk.active else 1
+                source: 'img/src/add-favourite.png'
+                pos: 340,-90
+                size_hint:0.06,0.95
+
+            Image:
+                opacity: 1 if chk.active else 0
+                source: 'img/src/image.png'
+                pos: 340,-90
+                size_hint:0.06,0.95
+
+            CheckBox:
+                id: chk
+                pos_hint: {"x":0,"y":0}
+                size_hint: 0.04,0.04
+                text: "FAV"
+                on_active : app.checkbox_click(self, self.active)
+                color: (0.5,2,1,0.5)
+
+<page4>:
+    Image:
+        source: 'img/src/background_allgames.jpg'
+    BoxLayout:
+        opacity: 0.75
+        orientation:'horizontal'
+        pos:0,272
+        Button:
+            size_hint:0.1, 0.15
+            on_press: root.manager.current = 'settings'
+            Image:
+                source: 'img/src/settings.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+        Button:
+            size_hint:0.1, 0.15
+            on_press:
+                root.manager.current = 'game'
+                app.setCurrentSystem()
+                app.lis_gamePerSys()
+            Image:
+                source: 'img/src/game.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+        Button:
+            size_hint:0.1, 0.15
+            on_press: root.manager.current = 'favorites'
+            Image:
+                source: 'img/src/favorite1.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+        Button:
+            size_hint:0.1, 0.15
+            on_press: app.appli_stop()
+            Image:
+                source: 'img/src/cancel.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 35,40
+
+    FloatLayout:
+        pos: 0,10
+        opacity: 0.75
+        Button:
+            id: b3
+            size_hint_y: None
+            size_hint:0.08, 0.85
+            pos:0,0
+            on_press :
+                app.favorite_dec()
+                app.checkfavorite()
+            Image:
+                source: 'img/src/left.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 25,30
+
+        Button:
+            id: b6
+            size_hint_y: None
+            size_hint:0.15, 0.20
+            text : "Clear ALL"
+            pos:50,50
+            #background_color: (1,0,1,1)
+            on_press : app.clearFavorite()
+
+        Button:
+            id: b1
+            size_hint_y: None
+            size_hint:0.08, 0.85
+            pos:441.6,0
+            on_press :
+                app.favorite_inc()
+                app.checkfavorite()
+            Image:
+                source: 'img/src/rigth.png'
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+                size: 25,30
+
+        Label:
+            id: fav_title
+            pos: -80, 150
+            text_size: cm(6), cm(5)
+            font_size: 16
+        Label:
+            id: fav_label
+            pos: -80,50
+            text_size: cm(6), cm(5)
+            font_size: 16
+            color: 0,0,0,1
+
+        Button:
+            size_hint:0.32, 0.53
+            pos:275,90
+            on_press:
+                app.imgGo()
+                app.imgGame_inc()
+        Image:
+            id: image02
+            opacity: 1
+            size_hint:0.32, 0.53
+            pos:275,90
+            allow_stretch:True
+            keep_ratio:True
+
+        Button:
+            id: upld
+            text:'Upload'
+            font_size: '20sp'
+            size_hint:0.84, 0.135
+            pos:38.5,0
+            on_press:
+                app.upload()
+
+
+        FloatLayout:
+            pos: 318,58
+            opacity: 0.75
+            Image:
+                opacity: 1 if chkfav.active else 0
+                source: 'img/src/image.png'
+                pos: 340,-90
+                size_hint:0.06,0.95
+            CheckBox:
+                id: chkfav
+                pos_hint: {"x":0,"y":0}
+                size_hint: 0.04,0.04
+                color: (0.5,2,1,0.5)
+                on_active :
+                    app.checkbox_click(self, False)
+                    app.favorite_dec()
+
+
+##################### set IP #####################################
+<page5>:
+    Image:
+        source: 'img/src/background_allgames.jpg'
+    BoxLayout:
+        opacity: 0.75
+        orientation: 'vertical'
+        Button:
+            #size_hint_y: None
+            size_hint:0.2, 0.2
+            text : "<< BACK"
+            on_press: root.manager.current ='settings'
+
+        GridLayout:
+            cols : 1
+            row : 1
+
+            Label:
+                id: ip_machinelabel
+                text : "Machine IP"
+                #size_hint_y: .2
+            Label:
+                id: ip_iplabel
+                text : "192.168.000.000"
+
+            GridLayout:
+                cols : 2
+                row : 1
+                Label:
+                    id: ip_ping
+                    text : "PING :"
+                Label:
+                    id: ip_pinglabel
+                    text : "In Progress ..."
+
+            TextInput:
+                id : ip_input
+                text : "192.168."
+                halign : "center"
+                size_hint_y: .9
+            GridLayout:
+                cols : 2
+                row : 1
+                Button:
+                    text: 'PING'
+                    size_hint:0.1, 0.2
+                    pos_hint: {"x":0,"y":0}
+                    on_press:
+                        app.ping_ip()
+                Button:
+                    text: 'SET'
+                    size_hint:0.1, 0.2
+                    pos_hint: {"x":0.9,"y":0}
+                    on_press:
+                        app.set_ip()
+
+        GridLayout:
+            cols : 4
+            rows: 3
+            Button:
+                text: '1'
+                size_hint:(0.1, 0.2)
+                on_press : app.button_press(1)
+            Button:
+                text: '2'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(2)
+            Button:
+                text: '3'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(3)
+            Button:
+                text: '4'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(4)
+            Button:
+                text: '5'
+                size_hint:0.1, 0.2
+                on_press : app.button_press(5)
+            Button:
+                text: '6'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(6)
+            Button:
+                text: '7'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(7)
+            Button:
+                text: '8'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(8)
+            Button:
+                text: '9'
+                size_hint:0.1, 0.2
+                on_press : app.button_press(9)
+            Button:
+                text: '0'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(0)
+            Button:
+                text: '<-'
+                size_hint:0.1, 0.1
+                on_press : app.clear()
+            Button:
+                text: '.'
+                size_hint:0.1, 0.1
+                on_press : app.button_press(".")
+
+###################################### karim babouri et sarah hadj-mokhnache
+<page6>:
+    Image:
+        source: 'img/src/background_allgames.jpg'
+    ################ BACK
+
+    ############################# swiper
+        FloatLayout:
+            pos: 1,10
+            Button:
+                id: b3
+                size_hint_y: None
+                size_hint:1, 2.9
+                pos:0,0
+                opacity: 0.75
+                on_press:
+                    app.imgGame_inc()
+
+            Button:
+                id: b1
+                size_hint_y: None
+                size_hint:1, 2.9
+                pos:380,0
+                opacity: 0.75
+                on_press:
+                    app.imgGame_inc()
+
+
+#########################
+    Image:
+        id: image
+        size_hint:0.98, 0.97
+        pos:5,5
+        allow_stretch:True
+        keep_ratio:False
+        FloatLayout:
+            pos: 1,10
+            Button:
+                #background_color: (2.0, 0.0, 0.0, 1)
+                pos:6,275
+                #size_hint_y: None
+                #size_hint:0.2, 0.2
+                text : "<< BACK"
+                size_hint_y: None
+                size_hint:0.7,0.4
+                font_size: 15
+                opacity: 0.5
+                on_press: app.switch()
